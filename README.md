@@ -15,7 +15,8 @@ Expense Editor
 1. Editable fields: name, amount, date, category
 2. Date Picker: any kind of view to pick a date (do not use 3rd-party library) with a confirm button
 3. Category Picker: any kind of list to pick a category
-4. Save button
+4. Amount Calculator: a calculator with a confirm button (do not use 3rd-party library)
+5. Save button
 
 Setting Page
 --
@@ -36,6 +37,7 @@ ExpenseListView
 ExpenseView
 DatePicker
 CategoryPicker
+AmountCalculator
 SettingScreen
 CategoryScreen
 ColorPicker
