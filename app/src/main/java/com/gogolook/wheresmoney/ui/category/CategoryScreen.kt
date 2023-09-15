@@ -2,6 +2,7 @@ package com.gogolook.wheresmoney.ui.category
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Slider
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Done
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,12 +35,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.gogolook.wheresmoney.data.Category
+import com.gogolook.wheresmoney.ui.components.FloatingActionButton
+import com.gogolook.wheresmoney.ui.components.Toolbar
+import com.gogolook.wheresmoney.ui.components.ToolbarAction
 
 /**
  * Category screen
@@ -43,6 +66,8 @@ fun CategoryScreen(
     CategoryView(viewModel.category.value, onSave = { category ->
         viewModel.saveCategory(category)
         onCompleted()
+    }, onBack = {
+        onCompleted()
     })
 }
 
@@ -58,11 +83,84 @@ fun CategoryScreen(
  * @param onSave: callback when user finish creating or editing a category
  */
 @Composable
-fun CategoryView(category: Category?, onSave: (category: Category) -> Unit) {
+fun CategoryView(category: Category?, onSave: (category: Category) -> Unit, onBack: () -> Unit) {
     val shouldShowColorPicker = remember { mutableStateOf(false) }
+    val name = remember { mutableStateOf("") }
     val color = remember { mutableStateOf(Color.Red) }
 
-    TODO("Implement CategoryView")
+    if (category != null) {
+        color.value = Color(category.color.toULong())
+        name.value = category.name
+    }
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            Toolbar(
+                title = "WheresMoney",
+                headerAction = ToolbarAction(image = Icons.Outlined.ArrowBack, onClick = {
+                    onBack()
+                }),
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                icon = Icons.Outlined.Done
+            ) {
+                val newCategory = if (category != null) {
+                    Category(category.id, name.value, color.value.value.toLong())
+                } else {
+                    Category(name = name.value, color = color.value.value.toLong())
+                }
+                onSave(newCategory)
+            }
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Gray)
+                .padding(paddingValues = paddingValues)
+                .padding(16.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White, RoundedCornerShape(16.dp))
+                    .padding(16.dp)
+            ) {
+                OutlinedTextField(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    value = name.value,
+                    onValueChange = { name.value = it },
+                    label = { Text("Name") }
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White, RoundedCornerShape(16.dp))
+                    .clickable {
+                        shouldShowColorPicker.value = true
+                    }
+                    .padding(16.dp)
+            ) {
+                Column {
+                    Text(text = "Color")
+                    Spacer(
+                        modifier = Modifier
+                            .height(36.dp)
+                            .width(36.dp)
+                            .background(color = color.value)
+                    )
+                }
+            }
+
+
+        }
+    }
 
     AnimatedVisibility(visible = shouldShowColorPicker.value) {
         ColorPicker(defaultColor = color.value, onPick = {
