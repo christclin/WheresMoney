@@ -55,8 +55,10 @@ fun ExpenseScreen(
 fun ExpenseView(expense: Expense?, categories: List<Category>, onSave: (expense: Expense) -> Unit) {
     val shouldShowDatePicker = remember { mutableStateOf(false) }
     val shouldShowCategoryPicker = remember { mutableStateOf(false) }
+    val shouldShowAmountCalculator = remember { mutableStateOf(false) }
     val date = remember { mutableStateOf(Date()) }
     val categoryId = remember { mutableStateOf(0) }
+    val amount = remember { mutableStateOf(0) }
 
     TODO("Implement ExpenseView")
 
@@ -72,13 +74,50 @@ fun ExpenseView(expense: Expense?, categories: List<Category>, onSave: (expense:
             shouldShowCategoryPicker.value = false
         }
     }
+    AnimatedVisibility(visible = shouldShowAmountCalculator.value) {
+        AmountCalculator(amount.value) {
+            amount.value = it
+            shouldShowAmountCalculator.value = false
+        }
+    }
 }
 
+/**
+ * Amount calculator
+ * A composable that provides
+ * 1. A text field for user to input amount
+ * 2. A number pad supports +-x/ for user to input amount
+ * 3. A button to confirm the amount
+ * @param defaultAmount: the default amount of the amount calculator
+ * @param onPick: callback when user pick an amount
+ */
+@Composable
+fun AmountCalculator(defaultAmount: Int, onPick: (amount: Int) -> Unit) {
+
+}
+
+/**
+ * Category picker
+ * A composable that provides
+ * 1. A single choice list of categories
+ * 2. A button to confirm the category
+ * @param categories: the list of categories
+ * @param defaultCategory: the default category of the category picker
+ * @param onPick: callback when user pick a category
+ */
 @Composable
 fun CategoryPicker(categories: List<Category>, defaultCategory: Category?, onPick: (category: Category) -> Unit) {
 
 }
 
+/**
+ * Date picker
+ * A composable that provides
+ * 1. A date picker with year, month, day (do not use 3rd-party library)
+ * 2. A button to confirm the date
+ * @param defaultDate: the default date of the date picker
+ * @param onPick: callback when user pick a date
+ */
 @Composable
 fun DatePicker(defaultDate: Date?, onPick: (date: Date) -> Unit) {
 
