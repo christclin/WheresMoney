@@ -1,6 +1,12 @@
 package com.gogolook.wheresmoney.ui.expense
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -105,10 +112,39 @@ fun ExpenseView(expense: Expense?, categories: List<Category>, onSave: (expense:
  * @param defaultAmount: the default amount of the amount calculator
  * @param onPick: callback when user pick an amount
  */
-@Composable
-fun AmountCalculator(defaultAmount: Int, onPick: (amount: Int) -> Unit) {
 
-}
+@Composable
+@Preview
+
+fun AmountCalculator(defaultAmount: Int=1, onPick: (amount: Int) -> Unit) {
+
+    var number = defaultAmount
+
+    Column {
+        Row {
+            TextField(value = number.toString(), onValueChange = {})
+                Button(onClick = { number += 1 }) {
+                    Text(text = "＋")
+                }
+                Button(onClick = { number -= 1 }) {
+                    Text(text = "-")
+                }
+
+            fun refreshTextfield(number: Int) {
+                //refresh textField value
+
+            }
+        }
+            Button(onClick = { onPick(number) }) {
+                Text(text = "confirm")
+
+
+            }
+        }
+    }
+
+
+
 
 /**
  * Category picker
