@@ -53,6 +53,9 @@ android {
 }
 
 dependencies {
+    implementation("androidx.datastore:datastore-core:1.0.0")
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")
+
     val hiltVersion = "2.48"
     val roomVersion = "2.5.2"
 

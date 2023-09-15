@@ -2,6 +2,7 @@ package com.gogolook.wheresmoney.di
 
 import android.content.Context
 import androidx.room.Room
+import com.gogolook.wheresmoney.ExpenseData
 import com.gogolook.wheresmoney.data.CategoryDao
 import com.gogolook.wheresmoney.data.CategoryRepository
 import com.gogolook.wheresmoney.data.CategoryRepositoryImpl
@@ -47,4 +48,8 @@ object DataModule {
     @Singleton
     @Provides
     fun provideExpenseRepository(dao: ExpenseDao): ExpenseRepository = ExpenseRepositoryImpl(dao)
+
+    @Singleton
+    @Provides
+    fun provideExpenseData(@ApplicationContext context: Context) = ExpenseData(context)
 }
