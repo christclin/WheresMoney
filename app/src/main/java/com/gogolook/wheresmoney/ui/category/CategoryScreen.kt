@@ -2,6 +2,16 @@ package com.gogolook.wheresmoney.ui.category
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
+import androidx.compose.material3.Slider
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,11 +27,18 @@ import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -164,5 +181,61 @@ fun CategoryView(category: Category?, onSave: (category: Category) -> Unit, onBa
  */
 @Composable
 fun ColorPicker(defaultColor: Color? = null, onPick: (color: Color) -> Unit) {
+    var r by remember { mutableFloatStateOf(0f) }
+    var g by remember { mutableFloatStateOf(0f) }
+    var b by remember { mutableFloatStateOf(0f) }
+    var selectedColor by remember { mutableStateOf(Color.White) }
 
+    Column(
+        modifier = Modifier.padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Picked Color")
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+                .background(selectedColor),
+            contentAlignment = Alignment.Center
+        ) {}
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Slider(
+            value = r,
+            onValueChange = { r = it },
+            valueRange = 0f..255f,
+            steps = 256,
+            onValueChangeFinished = {
+                selectedColor = Color(r.toInt(), g.toInt(), b.toInt())
+            },
+        )
+        Text(text = "R: ${r.toInt()}")
+
+        Slider(
+            value = g,
+            onValueChange = { g = it },
+            valueRange = 0f..255f,
+            steps = 256,
+            onValueChangeFinished = {
+                selectedColor = Color(r.toInt(), g.toInt(), b.toInt())
+            },
+        )
+        Text(text = "G: ${g.toInt()}")
+
+        Slider(
+            value = b,
+            onValueChange = { b = it },
+            valueRange = 0f..255f,
+            steps = 256,
+            onValueChangeFinished = {
+                selectedColor = Color(r.toInt(), g.toInt(), b.toInt())
+            },
+        )
+        Text(text = "B: ${b.toInt()}")
+
+        Button(onClick = {
+            onPick(selectedColor)
+        }) {
+            Text(text = "Confirm")
+        }
+    }
 }
