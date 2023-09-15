@@ -1,6 +1,8 @@
 # WheresMoney
 A project for mobile team building, to learn basic usage of Jetpack Compose.
 
+![Screenshot 2023-09-15 at 4 49 31 PM](https://github.com/christclin/WheresMoney/assets/30791425/9af94200-9962-49f3-bf5a-50bd4edb0a9f)
+
 This app contains:
 
 Main Page
@@ -36,6 +38,7 @@ We expect to complete below missed composables to let the app work fine.
 ExpenseListView - Jason
 ExpenseView - Eden
 DatePicker - Vincent
+
 CategoryPicker - HM
 AmountCalculator - Steven
 SettingScreen - Mike
