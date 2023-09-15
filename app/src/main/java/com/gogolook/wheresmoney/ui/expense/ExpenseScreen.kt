@@ -105,26 +105,30 @@ fun AmountCalculator(defaultAmount: Int=1, onPick: (amount: Int) -> Unit) {
 
     var number = defaultAmount
 
-    Column{
-        Row{
+    Column {
+        Row {
             TextField(value = number.toString(), onValueChange = {})
-            Button(onClick = {  number+=1}) {
-                Text(text = "＋")
+                Button(onClick = { number += 1 }) {
+                    Text(text = "＋")
+                }
+                Button(onClick = { number -= 1 }) {
+                    Text(text = "-")
+                }
+
+            fun refreshTextfield(number: Int) {
+                //refresh textField value
+
             }
-            Button(onClick = { number-=1}) {
-                Text(text = "-")
+        }
+            Button(onClick = { onPick(number) }) {
+                Text(text = "confirm")
+
+
             }
         }
-        fun refreshTextfield(number:Int){
-            //refresh textField value
-
-        }
-        Button(onClick = { onPick(number) }) {
-            Text(text = "confirm")
+    }
 
 
-        }
-}
 
 
 /**
