@@ -33,14 +33,14 @@ Category Editor
 
 We expect to complete below missed composables to let the app work fine.
 ```
-ExpenseListView
-ExpenseView
-DatePicker
-CategoryPicker
-AmountCalculator
-SettingScreen
-CategoryScreen
-ColorPicker
+ExpenseListView - Jason
+ExpenseView - Eden
+DatePicker - Vincent
+CategoryPicker - HM
+AmountCalculator - Steven
+SettingScreen - Mike
+CategoryView - Willy
+ColorPicker - Claire
 ```
 
 # Enjoy!
