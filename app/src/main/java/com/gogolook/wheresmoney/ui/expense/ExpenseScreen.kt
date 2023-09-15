@@ -1,11 +1,13 @@
 package com.gogolook.wheresmoney.ui.expense
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.gogolook.wheresmoney.data.Category
 import com.gogolook.wheresmoney.data.Expense
 import java.util.Date
@@ -63,7 +65,7 @@ fun ExpenseView(expense: Expense?, categories: List<Category>, onSave: (expense:
     TODO("Implement ExpenseView")
 
     AnimatedVisibility(visible = shouldShowCategoryPicker.value) {
-        DatePicker(expense?.date) {
+        MyDatePicker(expense?.date) {
             date.value = it
             shouldShowDatePicker.value = false
         }
@@ -118,7 +120,44 @@ fun CategoryPicker(categories: List<Category>, defaultCategory: Category?, onPic
  * @param defaultDate: the default date of the date picker
  * @param onPick: callback when user pick a date
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePicker(defaultDate: Date?, onPick: (date: Date) -> Unit) {
+fun MyDatePicker(defaultDate: Date?, onPick: (date: Date) -> Unit) {
+    var showDatePicker by remember {
+        mutableStateOf(true)
+    }
 
+    val datePickerState = rememberDatePickerState(initialDisplayedMonthMillis = defaultDate?.time)
+
+    val selectedDate = datePickerState.selectedDateMillis?.let {
+        Date(it)
+    }
+
+    if (showDatePicker) {
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker = false },
+            confirmButton = {
+                Button(onClick = {
+                    selectedDate?.let {
+                        onPick(it)
+                    }
+                    showDatePicker = false
+                }
+                ) {
+                    Text(text = "OK")
+                }
+            },
+            dismissButton = {
+                Button(onClick = {
+                    showDatePicker = false
+                }) {
+                    Text(text = "Cancel")
+                }
+            }
+        ) {
+            DatePicker(
+                state = datePickerState
+            )
+        }
+    }
 }
