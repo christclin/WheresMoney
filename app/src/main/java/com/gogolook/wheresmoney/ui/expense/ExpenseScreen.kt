@@ -106,11 +106,12 @@ fun ExpenseView(expense: Expense?, categories: List<Category>, onSave: (expense:
     val categoryId = remember { mutableStateOf(0) }
     val amount = remember { mutableStateOf(0) }
 
-
-    expense?.let {
-        date.value = it.date
-        categoryId.value = it.categoryId
-        amount.value = it.amount
+    LaunchedEffect(expense) {
+        expense?.let {
+            date.value = it.date
+            categoryId.value = it.categoryId
+            amount.value = it.amount
+        }
     }
 
     ExpenseItemDialog(
@@ -159,7 +160,8 @@ fun ExpenseItemDialog(
     onShowAmountCalculator: () -> Unit,
     onSave: (expense: Expense) -> Unit,
 ) {
-    var inputText by remember { mutableStateOf(expense?.name ?: "") }
+    val inputText = remember { mutableStateOf(expense?.name ?: "") }
+    LaunchedEffect(name) { inputText.value = name }
 
     Box(
         modifier = Modifier
@@ -196,14 +198,14 @@ fun ExpenseItemDialog(
                             }),
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                         modifier = Modifier,
-                        value = inputText,
+                        value = inputText.value,
                         maxLines = 3,
                         cursorBrush = SolidColor(Color.Green),
                         onValueChange = {
-                            inputText = it
+                            inputText.value = it
                         },
                         decorationBox = {
-                            if (inputText.isBlank()) {
+                            if (inputText.value.isBlank()) {
                                 Text(
                                     text = name,
                                     color = Color.LightGray,
@@ -278,12 +280,12 @@ fun ExpenseItemDialog(
                         onSave(
                             expense?.copy(
                                 id = expense.id,
-                                name = inputText,
+                                name = inputText.value,
                                 amount = amount,
                                 date = date,
                                 categoryId = categoryId,
                             ) ?: Expense(
-                                name = inputText,
+                                name = inputText.value,
                                 amount = amount,
                                 date = date,
                                 categoryId = categoryId,
