@@ -1,6 +1,7 @@
 package com.gogolook.wheresmoney.ui.setting
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 
 /**
  * A composable that provides
@@ -20,5 +21,10 @@ fun SettingScreen(
     createCategory: () -> Unit = {},
     updateCategory: (categoryId: Int) -> Unit = {},
 ) {
+    LaunchedEffect(key1 = Unit) {
+        viewModel.fetchCategories()
+    }
+    val categories = viewModel.categories.value
 
+    // TODO Implement Categories List view
 }

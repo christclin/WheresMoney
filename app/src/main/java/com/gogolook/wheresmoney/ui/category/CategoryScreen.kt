@@ -47,7 +47,7 @@ fun CategoryView(category: Category?, onSave: (category: Category) -> Unit) {
     val shouldShowColorPicker = remember { mutableStateOf(false) }
     val color = remember { mutableStateOf(Color.Red) }
 
-    TODO("Implement CategoryView")
+    // TODO Implement CategoryView
 
     AnimatedVisibility(visible = shouldShowColorPicker.value) {
         ColorPicker(defaultColor = color.value, onPick = {

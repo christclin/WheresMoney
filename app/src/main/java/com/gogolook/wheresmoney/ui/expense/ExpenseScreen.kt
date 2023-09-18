@@ -60,7 +60,7 @@ fun ExpenseView(expense: Expense?, categories: List<Category>, onSave: (expense:
     val categoryId = remember { mutableStateOf(0) }
     val amount = remember { mutableStateOf(0) }
 
-    TODO("Implement ExpenseView")
+    // TODO Implement ExpenseView
 
     AnimatedVisibility(visible = shouldShowCategoryPicker.value) {
         DatePicker(expense?.date) {
